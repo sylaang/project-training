@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Produit index{% endblock %}
+
+{% block body %}
+    <h1>Catalogue</h1>
+
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for produit in produits %}
+
+            <div class="col-">
+ <div class="card" style="width: 18rem;">
+  <img src="{{ asset('img/') ~ produit.imagename}}" class="img-card" alt="pikachu"  alt="...">
+  <div class="card-body">
+    <h5 class="card-title">{{ produit.titre }}</h5>
+    <p class="card-text">{{ produit.description }}</p>
+    <button type="button" class="btn btn-primary">Ajouter au panier</button>
+    <a href="#" class="btn btn-primary">Detail</a>
+    
+  </div>
+</div> 
+           
+
+         {% endfor %}
+
+</div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Titre</th>
+                <th>Description</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for produit in produits %}
+            <tr>
+                <td>{{ produit.id }}</td>
+                <td>{{ produit.titre }}</td>
+                <td>{{ produit.description }}</td>
+                <td>
+                    <a href="{{ path('app_produit_show', {'id': produit.id}) }}">show</a>
+                 </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+ {% endblock %}

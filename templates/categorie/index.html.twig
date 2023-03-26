@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CategorieController!{% endblock %}
+
+{% block body %}
+
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for categorie in categories %}
+
+            <div class="col">
+                <div class="card">
+                <img src="..." class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{ categorie.titre }}</h5>
+                    <p class="card-text">{{ categorie.description }}
+                    
+                    </p>
+                     <a href="{{ path('app_aproduitcategorie', {'id': categorie.id}) }}">
+                      <button type="button" class="btn btn-primary">Voir les produits</button>
+                    </a>
+                </div>
+                </div>
+            </div> 
+
+         {% endfor %}
+
+</div>
+
+{% endblock %}

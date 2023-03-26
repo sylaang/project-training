@@ -3,6 +3,8 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+        <link rel="stylesheet" href="{{ asset('css/style.css') }}">
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
         {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
         {% block stylesheets %}
@@ -14,6 +16,109 @@
         {% endblock %}
     </head>
     <body>
+
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">TP</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+            <a class="nav-link active" aria-current="page" 
+            href="{{ path('app_home') }}">Home</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link" href="{{ path('app_jeu') }}">Jeu</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link" href="{{ path('app_produit_index') }}">Produit</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link" href="{{ path('app_register') }}">Register</a>
+            </li>
+             {% if is_granted('ROLE_USER')==false %}
+                <li class="nav-item">
+                <a class="nav-link" href="{{ path('app_login') }}">Login</a>
+                </li> 
+            {% endif %} 
+             {% if is_granted('ROLE_USER') %}
+             <li class="nav-item">
+                <a class="nav-link" href="{{ path('app_logout') }}">Log out</a>
+            </li>
+             {% endif %} 
+
+            {% if is_granted('ROLE_ADMIN') %}
+            <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="{{ path('app_admin_user_index') }}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Gestion des users
+            </a>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="{{ path('app_admin_user_index') }}">Voir les user</a></li>
+                <li><a class="dropdown-item" href="{{ path('app_admin_user_new') }}">Nouveau user</a></li>
+             </ul>
+            </li>
+
+
+            <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="{{ path('app_admin_user_index') }}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Gestion des Produits
+            </a>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="{{ path('app_admin_produit_index') }}">Voir les produits</a></li>
+                <li><a class="dropdown-item" href="{{ path('app_admin_produit_new') }}">Nouveau produit</a></li>
+             </ul>
+            </li>
+
+
+            <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="{{ path('app_admin_user_index') }}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Gestion des Commentaires
+            </a>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="{{ path('app_admin_commentaire_index') }}">Voir les commentaire</a></li>
+                <li><a class="dropdown-item" href="{{ path('app_admin_commentaire_new') }}">Nouveau commentaire</a></li>
+             </ul>
+            </li>
+
+
+               <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="{{ path('app_admin_user_index') }}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Gestion des Categorie
+            </a>
+            </li>
+
+               <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="{{ path('app_admin_user_index') }}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Gestion des Aproduit
+            </a>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="{{ path('app_admin_produit_index') }}">Voir les aproduit</a></li>
+                <li><a class="dropdown-item" href="{{ path('app_admin_produit_new') }}">Nouveau Aproduit</a></li>
+             </ul>
+            </li>
+            {% endif %} 
+        </ul> 
+        </div>
+    </div>
+    </nav>
+
+    <div class="container">
+
+
+
         {% block body %}{% endblock %}
+
+           {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="flash-{{ label }} bg-{{ label }} text-light rounded mb-5 p-3">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+    <script src="{{ asset('js/script.js') }}"></script>
+    </div>
     </body>
 </html>
