@@ -15,7 +15,10 @@
   <div class="card-body">
     <h5 class="card-title">{{ produit.titre }}</h5>
     <p class="card-text">{{ produit.description }}</p>
-    <button type="button" class="btn btn-primary">Ajouter au panier</button>
+
+    <a href="{{ path('app_cart_add', {'id': produit.id }) }}">
+    <button type="button" class="btn btn-primary">Ajouter au panier</button></a>
+    
     <a href="#" class="btn btn-primary">Detail</a>
     
   </div>

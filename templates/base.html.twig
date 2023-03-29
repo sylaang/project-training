@@ -101,6 +101,11 @@
             {% endif %} 
         </ul> 
         </div>
+        {% if is_granted('ROLE_USER') %}
+            Vous êtes connecté en tant que {{ app.user.email }}
+         {% else  %}
+            Vous êtes deconnecté
+        {% endif %}
     </div>
     </nav>
 
