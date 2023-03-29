@@ -15,6 +15,7 @@
   <div class="card-body">
     <h5 class="card-title">{{ produit.titre }}</h5>
     <p class="card-text">{{ produit.description }}</p>
+    <p class="card-text">{{ produit.prix }} €</p>
 
     <a href="{{ path('app_cart_add', {'id': produit.id }) }}">
     <button type="button" class="btn btn-primary">Ajouter au panier</button></a>
@@ -34,6 +35,7 @@
             <tr>
                 <th>Id</th>
                 <th>Titre</th>
+                <th>prix</th>
                 <th>Description</th>
                 <th>actions</th>
             </tr>
@@ -43,6 +45,7 @@
             <tr>
                 <td>{{ produit.id }}</td>
                 <td>{{ produit.titre }}</td>
+                <td>{{ produit.prix }}</td>
                 <td>{{ produit.description }}</td>
                 <td>
                     <a href="{{ path('app_produit_show', {'id': produit.id}) }}">show</a>

@@ -16,6 +16,7 @@
                 <th>prix</th>
                 <th>Quantite</th>
                 <th>Total</th>
+                <th>Suprrimer</th>
             </tr>
         </thead>
         <tbody>
@@ -25,9 +26,24 @@
                 <td><img src="{{ asset('img/') ~monpanier.produit.imagename}}" class="w-25" ></td>
                 <td>{{monpanier.produit.titre}}</td>
                 <td>{{monpanier.produit.description}}</td>
-                <td>{{monpanier.produit.prix}} €</td>
-                <td>{{monpanier.quantite}}</td>
-                <td>{{monpanier.total}} €</td>
+                <td>{{monpanier.produit.prix}}€</td>
+                <td>
+                    <a href="{{ path('app_cart_add', {'id': monpanier.produit.id}) }}">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                    </a>
+                    {{monpanier.quantite}}
+                    <a href="{{ path('app_cart_removequantite', {'id': monpanier.produit.id}) }}">
+                        <i class="fa fa-minus" aria-hidden="true"></i>
+                    </a>
+                </td>
+                <td>
+                    {{monpanier.total}}€ 
+                </td>
+                <td>
+                    <a href="{{ path('app_cart_remove', {'id': monpanier.produit.id}) }}">
+                        <i class="fa fa-trash" aria-hidden="true"></i>
+                    </a>
+                </td>
             </tr>
         {% else %}
             <tr>
@@ -38,9 +54,15 @@
     </table>
 
 
-    <h2>Montant Total :      € </h2>
+    <h2>Montant Total : {{ totalcomplet }}€ </h2>
+    <a href="{{ path('app_commande')}}">
+        <h2>COMMANDEZ</h2>
+        </a>
 
         <a href="{{ path('app_cart_clear') }}">
         Vider le panier
         </a>
 {% endblock %}
+{% block javascripts %}
+            <script src="https://use.fontawesome.com/c33ed44af2.js"></script>
+        {% endblock %}
