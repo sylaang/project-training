@@ -11,7 +11,6 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[ORM\Table(name: '`user`')]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
@@ -36,15 +35,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'users', targetEntity: Commentaire::class)]
     private Collection $commentaires;
 
-    #[ORM\Column(type: 'boolean')]
-    private $isVerified = false;
-
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
+    #[ORM\Column(type: 'boolean')]
+    private $isVerified = false;
+
+    #[ORM\OneToMany(mappedBy: 'users', targetEntity: Facture::class)]
+    private Collection $factures;
+ 
     public function __construct()
     {
         $this->commentaires = new ArrayCollection();
+        $this->factures = new ArrayCollection(); 
     }
 
     public function getId(): ?int
@@ -92,6 +95,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
+    }
+
+    public function __toString()
+    {
+        return $this->email;
     }
 
     public function setRoles(array $roles): self
@@ -166,6 +174,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function getNom(): ?string
+    {
+        return $this->nom;
+    }
+
+    public function setNom(string $nom): self
+    {
+        $this->nom = $nom;
+
+        return $this;
+    }
+
     public function isVerified(): bool
     {
         return $this->isVerified;
@@ -178,15 +198,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getNom(): ?string
+    /**
+     * @return Collection<int, Facture>
+     */
+    public function getFactures(): Collection
     {
-        return $this->nom;
+        return $this->factures;
     }
 
-    public function setNom(string $nom): self
+    public function addFacture(Facture $facture): self
     {
-        $this->nom = $nom;
+        if (!$this->factures->contains($facture)) {
+            $this->factures->add($facture);
+            $facture->setUsers($this);
+        }
 
         return $this;
     }
+
+    public function removeFacture(Facture $facture): self
+    {
+        if ($this->factures->removeElement($facture)) {
+            // set the owning side to null (unless already changed)
+            if ($facture->getUsers() === $this) {
+                $facture->setUsers(null);
+            }
+        }
+
+        return $this;
+    }
+
+    
+     
 }

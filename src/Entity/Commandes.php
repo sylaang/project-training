@@ -2,12 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\CommandeRepository;
+use App\Repository\CommandesRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: CommandeRepository::class)]
-class Commande
+#[ORM\Entity(repositoryClass: CommandesRepository::class)]
+class Commandes
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -15,10 +15,12 @@ class Commande
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'commandes')]
-    private ?User $users = null;
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Facture $factures = null;
 
     #[ORM\ManyToOne(inversedBy: 'commandes')]
-    private ?Produit $produits = null;
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Produit $produit = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $quantite = null;
@@ -28,26 +30,26 @@ class Commande
         return $this->id;
     }
 
-    public function getUsers(): ?User
+    public function getFactures(): ?Facture
     {
-        return $this->users;
+        return $this->factures;
     }
 
-    public function setUsers(?User $users): self
+    public function setFactures(?Facture $factures): self
     {
-        $this->users = $users;
+        $this->factures = $factures;
 
         return $this;
     }
 
-    public function getProduits(): ?Produit
+    public function getProduit(): ?Produit
     {
-        return $this->produits;
+        return $this->produit;
     }
 
-    public function setProduits(?Produit $produits): self
+    public function setProduit(?Produit $produit): self
     {
-        $this->produits = $produits;
+        $this->produit = $produit;
 
         return $this;
     }
